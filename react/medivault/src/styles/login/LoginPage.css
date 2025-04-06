@@ -1,0 +1,96 @@
+.loginPage {
+    display: flex;
+    /* background-color: red; */
+    height: 100vh;
+    width: 100%;
+   
+}
+
+.left {
+    display: flex;
+    flex: 1;
+    background-color: grey;
+    border-radius: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    /* width: 50%; */
+    flex-direction: column;
+    color: white;
+    font-size: 45px;
+    font-weight: normal;
+    position: relative;
+    height: 100%;
+}
+
+img {
+    width: 400px;
+    border-radius: 1.5rem;
+}
+
+.right {
+    display: flex;
+    flex: 1;
+    border-radius: 0.5rem;
+    background-color: white(0, 0, 0, 1);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    /* width: 50%; */
+    color: grey;
+    position: relative;
+    float: right;
+}
+
+.right a {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.right a:hover {
+    color: red;
+}
+
+.loginCredentials {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    border-radius: 0.5rem;
+    width: 250px;
+    height: 40px;
+    /* font-size: 20px; */
+    font-weight: normal;
+}
+
+input[type="submit"] {
+    margin: 3.5px;
+}
+
+input[type="submit"]:hover {
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+}
+
+.signIn {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: normal;
+
+}
+
+.btn {
+    cursor: pointer;
+    padding: 10px 20px;
+    width: 270px;
+    margin-top: 15px;
+    background-color: #2d3e2e; 
+    color: white; 
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
