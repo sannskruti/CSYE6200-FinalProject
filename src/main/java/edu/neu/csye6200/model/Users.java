@@ -29,7 +29,7 @@ public class Users {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "users")
-    private List<Medicine> medicines;
+    private List<Car> cars;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "users")

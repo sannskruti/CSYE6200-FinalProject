@@ -2,18 +2,18 @@ package edu.neu.csye6200.service;
 
 import edu.neu.csye6200.exception.AlreadyExistsException;
 import edu.neu.csye6200.request.*;
-import edu.neu.csye6200.service.MediVaultServiceImpl.CommonResponse;
+import edu.neu.csye6200.service.CarStoreServiceImpl.CommonResponse;
 
-public interface MediVaultService {
+public interface CarStoreService {
     CommonResponse createCustomer(NewCustomerRequest request);
 
-    CommonResponse createMedicine(NewMedicineRequest request) throws AlreadyExistsException;
+    CommonResponse createCar(NewCarRequest request) throws AlreadyExistsException;
 
     CommonResponse createOrder(NewOrderRequest request);
 
     CommonResponse fetchAllCustomers();
 
-    CommonResponse fetchAllMedicines(String userHashId);
+    CommonResponse fetchAllCars(String userHashId);
 
     CommonResponse fetchAllOrders(String userHashId);
 

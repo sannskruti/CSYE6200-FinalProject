@@ -1,12 +1,11 @@
 package edu.neu.csye6200.service;
-
 import edu.neu.csye6200.context.CurrentUserUtil;
+import edu.neu.csye6200.model.Car;
 import edu.neu.csye6200.model.Customer;
-import edu.neu.csye6200.model.Medicine;
 import edu.neu.csye6200.model.Orders;
 import edu.neu.csye6200.model.Users;
+import edu.neu.csye6200.repo.CarRepo;
 import edu.neu.csye6200.repo.CustomerRepo;
-import edu.neu.csye6200.repo.MedicineRepo;
 import edu.neu.csye6200.repo.OrdersRepo;
 import edu.neu.csye6200.repo.UsersRepo;
 import edu.neu.csye6200.request.*;
@@ -27,13 +26,13 @@ import java.util.stream.Stream;
 import static edu.neu.csye6200.response.MediVaultMessages.*;
 
 @Service
-public class MediVaultServiceImpl implements MediVaultService {
+public class CarStoreServiceImpl implements CarStoreService {
 
     @Autowired
     private CustomerRepo customerRepo;
 
     @Autowired
-    private MedicineRepo medicineRepo;
+    private CarRepo carRepo;
 
     @Autowired
     private OrdersRepo ordersRepo;
@@ -48,7 +47,10 @@ public class MediVaultServiceImpl implements MediVaultService {
 
     @Autowired
     private JwtUtil jwtUtil;
-
+    public static final String SUCCESS = "success";
+    public static final String FAILURE = "failure";
+    public static final String CAR_CREATED = "carCreated";
+    public static final String CAR_ALREADY_EXISTS = "carAlreadyExists";
 
     @Data
     @NoArgsConstructor
@@ -91,52 +93,83 @@ public class MediVaultServiceImpl implements MediVaultService {
     }
 
     @Override
-    public CommonResponse createMedicine(NewMedicineRequest request) {
-//        Users users = findUserByHashId(userHashId);
-        Users users = usersRepo.findByEmail(CurrentUserUtil.getCurrentUser());
-        return Optional.ofNullable(medicineRepo.findByName(request.getName()))
-                .map(medicine -> {
-                    if (medicine.getUsers().isEmpty()) {
-                        medicine.setUsers(Stream.of(users).collect(Collectors.toList()));
-                        medicineRepo.save(medicine);
-                        return new CommonResponse(success, medicineCreated, medicine);
+    public CommonResponse createCar(NewCarRequest request) {
+        // Get the current user
+        Users user = usersRepo.findByEmail(CurrentUserUtil.getCurrentUser());
+
+        // Check if the car already exists based on brand, model, and year
+        return Optional.ofNullable(carRepo.findByBrandAndModelAndYear(request.getBrand(), request.getModel(), request.getYear()))
+                .map(car -> {
+                    // If the car has no users, associate the current user
+                    if (car.getUsers().isEmpty()) {
+                        car.setUsers(Stream.of(user).collect(Collectors.toList()));
+                        carRepo.save(car);
+                        return new CommonResponse(SUCCESS, CAR_CREATED, car);
                     }
-                    if (medicine.getUsers().stream().anyMatch(u -> u.equals(users))) {
-                        return new CommonResponse(failure, medicinesFetched);
+
+                    // If the user is already associated with the car
+                    if (car.getUsers().stream().anyMatch(u -> u.equals(user))) {
+                        return new CommonResponse(FAILURE, CAR_ALREADY_EXISTS, null);
                     }
-                    medicine.setUsers(Stream.concat(medicine.getUsers().stream(), Stream.of(users))
+
+                    // Otherwise, add the current user to the car's user list
+                    car.setUsers(Stream.concat(car.getUsers().stream(), Stream.of(user))
                             .collect(Collectors.toList()));
-                    medicineRepo.save(medicine);
-                    return new CommonResponse(success, medicineCreated, medicine);
+                    carRepo.save(car);
+                    return new CommonResponse(SUCCESS, CAR_CREATED, car);
                 })
                 .orElseGet(() -> {
-                    Medicine newMedicine = new Medicine(UUID.randomUUID(), request.getName(), request.getContent(), request.getPrice());
-                    newMedicine.setUsers(Stream.of(users).collect(Collectors.toList()));
-                    medicineRepo.save(newMedicine);
-                    return new CommonResponse(success, medicineCreated, newMedicine);
+                    // If the car doesn't exist, create a new one
+                    Car newCar = new Car(
+                            UUID.randomUUID(),
+                            request.getBrand(),
+                            request.getModel(),
+                            request.getYear(),
+                            request.getColor(),
+                            request.getFuelType(),
+                            request.getMileage(),
+                            request.getPrice(),
+                            request.getDescription(),
+                            request.isUsed(),
+                            request.isAvailable(),
+                            request.getEngineType(),
+                            request.getSeatingCapacity(),
+                            request.getLocation(),
+                            request.getImageUrl()
+                    );
+                    newCar.setUsers(Stream.of(user).collect(Collectors.toList()));
+                    carRepo.save(newCar);
+                    return new CommonResponse(SUCCESS, CAR_CREATED, newCar);
                 });
     }
 
+
     @Override
     public CommonResponse createOrder(NewOrderRequest request) {
-        Users users = usersRepo.findByEmail(CurrentUserUtil.getCurrentUser());
-        Medicine medicine = Optional.ofNullable(medicineRepo.findByName(request.getMedicineName()))
-                .orElseThrow(() -> new IllegalArgumentException(medicineNotFound));
-
-        return customerRepo.findByPhoneNumber(request.getCustomerMobileNumber())
-                .map(customer -> {
-                    Orders orders = new Orders();
-                    orders.setUsers(Stream.of(users).collect(Collectors.toList()));
-                    orders.setCustomers(Stream.of(customer).collect(Collectors.toList()));
-                    orders.setId(UUID.randomUUID());
-                    orders.setMedicines(Stream.of(medicine).collect(Collectors.toList()));
-                    orders.setQuantity(request.getQuantity());
-                    orders.setOrderTotal(medicine.getPrice() * request.getQuantity());
-                    ordersRepo.save(orders);
-                    return new CommonResponse(success, orderCreated, orders);
-                })
-                .orElse(new CommonResponse(failure, customerNotFound));
+        return null;
     }
+
+
+//    @Override
+//    public CommonResponse createOrder(NewOrderRequest request) {
+//        Users users = usersRepo.findByEmail(CurrentUserUtil.getCurrentUser());
+//        Medicine medicine = Optional.ofNullable(medicineRepo.findByName(request.getMedicineName()))
+//                .orElseThrow(() -> new IllegalArgumentException(medicineNotFound));
+//
+//        return customerRepo.findByPhoneNumber(request.getCustomerMobileNumber())
+//                .map(customer -> {
+//                    Orders orders = new Orders();
+//                    orders.setUsers(Stream.of(users).collect(Collectors.toList()));
+//                    orders.setCustomers(Stream.of(customer).collect(Collectors.toList()));
+//                    orders.setId(UUID.randomUUID());
+//                    orders.setMedicines(Stream.of(medicine).collect(Collectors.toList()));
+//                    orders.setQuantity(request.getQuantity());
+//                    orders.setOrderTotal(medicine.getPrice() * request.getQuantity());
+//                    ordersRepo.save(orders);
+//                    return new CommonResponse(success, orderCreated, orders);
+//                })
+//                .orElse(new CommonResponse(failure, customerNotFound));
+//    }
 
     @Override
     public CommonResponse fetchAllCustomers() {
@@ -146,9 +179,9 @@ public class MediVaultServiceImpl implements MediVaultService {
     }
 
     @Override
-    public CommonResponse fetchAllMedicines(String userHashId) {
-        List<Medicine> medicineList = medicineRepo.findByUsers_Id(UUID.fromString(userHashId));
-        return new CommonResponse(success, medicinesFetched, medicineList);
+    public CommonResponse fetchAllCars(String userHashId) {
+        List<Car> carListList = carRepo.findByUsers_Id(UUID.fromString(userHashId));
+        return new CommonResponse(success, medicinesFetched, carListList);
     }
 
     @Override

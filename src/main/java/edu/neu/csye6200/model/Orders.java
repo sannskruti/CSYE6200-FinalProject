@@ -33,7 +33,7 @@ public class Orders extends CommonFields {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "medicine_id")
     )
-    private List<Medicine> medicines;
+    private List<Car> cars;
 
     private int quantity;
     private double orderTotal;
