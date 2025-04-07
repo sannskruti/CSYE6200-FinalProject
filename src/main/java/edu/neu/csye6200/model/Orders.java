@@ -3,7 +3,7 @@ package edu.neu.csye6200.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-        import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,9 +29,9 @@ public class Orders extends CommonFields {
 
     @ManyToMany
     @JoinTable(
-            name = "order_medicine",
+            name = "order_car", 
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "medicine_id")
+            inverseJoinColumns = @JoinColumn(name = "car_id") 
     )
     private List<Car> cars;
 

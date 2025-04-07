@@ -3,7 +3,7 @@ import LoginPage from './components/login/LoginPage';
 import SignUpPage from './components/login/SignupPage';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CarsView from './components/medicines/CarsView'; // renamed MedicinesView to CarsView
+import CarsView from './components/cars/CarsView'; // renamed MedicinesView to CarsView
 import CustomersView from './components/customers/CustomersView';
 import OrdersView from './components/orders/OrdersView';
 

@@ -17,19 +17,19 @@ public class Car extends CommonFields {
     @Id
     private UUID id;
 
-    private String brand;              // e.g., Toyota, Ford
-    private String model;              // e.g., Camry, Mustang
+    private String brand;
+    private String model;
     private int year;
     private String color;
-    private String fuelType;           // Petrol, Diesel, Electric
+    private String fuelType;
     private double mileage;
     private double price;
     private String description;
-    private boolean isUsed;            // true = used, false = new
-    private boolean available;         // In inventory
-    private String engineType;         // e.g., V6, I4
+    private boolean isUsed;
+    private boolean available;
+    private String engineType;
     private int seatingCapacity;
-    private String location;           // Dealership location
+    private String location;
     private String imageUrl;
 
     @ManyToMany(mappedBy = "cars")
@@ -38,11 +38,12 @@ public class Car extends CommonFields {
 
     @ManyToMany
     @JoinTable(
-            name = "medicine_user",
-            joinColumns = @JoinColumn(name = "medicine_id"),
+            name = "car_user", 
+            joinColumns = @JoinColumn(name = "car_id"), 
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<Users> users;
+
     public Car(
             UUID id,
             String brand,
@@ -76,5 +77,4 @@ public class Car extends CommonFields {
         this.location = location;
         this.imageUrl = imageUrl;
     }
-
 }

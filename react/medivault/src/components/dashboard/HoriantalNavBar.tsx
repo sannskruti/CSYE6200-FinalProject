@@ -17,7 +17,7 @@ const HorizontalNavBar = () => {
 
   return (
     <div className="NavigationBar">
-      <img src="../src/assets/images/carwiseLogo.jpg" alt="CarWise Logo" />
+      <img src="../src/assets/images/carwise2.png" alt="CarWise Logo" />
       <h1 className="nav-title">CarWise</h1>
       <button className="logout-button" onClick={handleLogout}>
         Log Out
