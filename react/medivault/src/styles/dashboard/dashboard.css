@@ -205,3 +205,32 @@ form input {
     font-weight: normal;
     font-size: medium;
   }
+
+  .table-wrapper {
+    width: 100%;
+    max-width: 1300px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+  }
+  
+  .add-car-btn {
+    align-self: flex-end;
+    background-color: #28a745;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-bottom: 10px;
+  }
+  
+  .add-car-btn:hover {
+    background-color: #218838;
+  }
+  

@@ -8,10 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class NewOrderRequest {
-    @NotEmpty(message = "customer mobile should not be empty")
+
+    @NotEmpty(message = "Customer mobile should not be empty")
     private String customerMobileNumber;
-    @NotEmpty(message = "medicine name should not be empty")
-    private String medicineName;
-    @Min(1)
+
+    @NotEmpty(message = "Car model should not be empty")
+    private String carModel;
+
+    @Min(value = 1, message = "Quantity must be at least 1")
     private int quantity;
 }

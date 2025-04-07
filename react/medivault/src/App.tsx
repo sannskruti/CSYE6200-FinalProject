@@ -1,35 +1,31 @@
-import { ToastContainer } from 'react-toastify'
-import LoginPage from './components/login/LoginPage'
-import SignUpPage from './components/login/SignupPage'
+import { ToastContainer } from 'react-toastify';
+import LoginPage from './components/login/LoginPage';
+import SignUpPage from './components/login/SignupPage';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MedicinesView from './components/medicines/MedicinesView';
+import CarsView from './components/medicines/CarsView'; // renamed MedicinesView to CarsView
 import CustomersView from './components/customers/CustomersView';
 import OrdersView from './components/orders/OrdersView';
 
-
 function App() {
-
   return (
     <Router>
       <Routes>
-        {/* Route for the login page */}
-        <Route path="/" index element={<LoginPage />} />
-        <Route path="/dashboard/medicines" index element={<MedicinesView />} />
-        <Route path="/dashboard/customers" index element={<CustomersView />} />
-        <Route path="/dashboard/orders" index element={<OrdersView />} />
-        <Route path="/signup" index element={<SignUpPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/dashboard/cars" element={<CarsView />} />
+        <Route path="/dashboard/customers" element={<CustomersView />} />
+        <Route path="/dashboard/orders" element={<OrdersView />} />
       </Routes>
 
-      {/* Toast container is rendered globally to show toast notifications */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
         closeButton={true}
-        className="Toastify__toast-container"  // Custom class to style it
+        className="Toastify__toast-container"
       />
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

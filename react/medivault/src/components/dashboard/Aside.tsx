@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 
 const Aside = () => {
   const currentPath = window.location.pathname;
@@ -11,10 +11,10 @@ const Aside = () => {
         Customers
       </a>
       <a
-        href="/dashboard/medicines"
-        className={currentPath === "/dashboard/medicines" ? "active" : ""}
+        href="/dashboard/cars"
+        className={currentPath === "/dashboard/cars" ? "active" : ""}
       >
-        Medicines
+        Cars
       </a>
       <a
         href="/dashboard/orders"

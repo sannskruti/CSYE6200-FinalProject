@@ -132,6 +132,9 @@ export const CustomersTable = () => {
         data,
         initialState: { showColumnFilters: true },
         enablePagination: false,
+        renderTopToolbarCustomActions: () => <></>,
+
+         renderToolbarInternalActions: () => null,
     });
 
     return <>
